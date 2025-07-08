@@ -1,7 +1,7 @@
 baseURL = "https://blog.healthymind-tech.com/"
 languageCode = "zh-tw"
 title = "療心智能部落格"
-theme = "hugo-theme-dream"
+theme = ""
 
 [params]
   author = "療心智能"
