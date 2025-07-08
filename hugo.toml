@@ -97,7 +97,6 @@ paginatePath = "page"
 # RSS 設定
 [params.rss]
   limit = 20
-<<<<<<< HEAD
   
 # 網站地圖設定
 [sitemap]
@@ -147,5 +146,3 @@ paginatePath = "page"
   [module.hugoVersion]
     extended = false
     min = "0.104.0"
-=======
->>>>>>> ed22115ae0a752094f2b90a84c09ef06355aec80
