@@ -1,0 +1,59 @@
+{{ define "main" }}
+<div class="home-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">{{ .Site.Title }}</h1>
+                <p class="hero-description">{{ .Site.Params.description }}</p>
+                <div class="hero-actions">
+                    <a href="#posts" class="btn btn-primary">探索文章</a>
+                    <a href="{{ .Site.Params.social.instagram }}" class="btn btn-outline" target="_blank">關注我們</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Posts Section -->
+    <section class="posts-section" id="posts">
+        <div class="posts-container">
+            <div class="section-header">
+                <h2 class="section-title">最新文章</h2>
+                <p class="section-description">探索我們的最新技術分享與產業洞察</p>
+            </div>
+            
+            <div class="posts-grid">
+                {{ $posts := first (.Site.Params.home.posts | default 6) (where .Site.RegularPages "Section" "blog") }}
+                {{ range $posts }}
+                    {{ partial "post-card.html" . }}
+                {{ end }}
+            </div>
+            
+            <!-- 如果有更多文章，顯示查看更多按鈕 -->
+            {{ if gt (len (where .Site.RegularPages "Section" "blog")) (.Site.Params.home.posts | default 6) }}
+                <div class="posts-actions">
+                    <a href="{{ "blog" | relURL }}" class="btn btn-secondary">查看所有文章</a>
+                </div>
+            {{ end }}
+        </div>
+    </section>
+    
+    <!-- Featured Categories -->
+    <section class="categories-section">
+        <div class="categories-container">
+            <h2 class="section-title">文章分類</h2>
+            <div class="categories-grid">
+                {{ range .Site.Taxonomies.categories }}
+                    <a href="{{ .Page.RelPermalink }}" class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <h3 class="category-name">{{ .Page.Title }}</h3>
+                        <span class="category-count">{{ len .Pages }} 篇文章</span>
+                    </a>
+                {{ end }}
+            </div>
+        </div>
+    </section>
+</div>
+{{ end }}

@@ -1,0 +1,94 @@
+{{ define "main" }}
+<div class="taxonomy-page">
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-container">
+            <h1 class="page-title">
+                <i class="fas fa-folder"></i>
+                文章分類
+            </h1>
+            <p class="page-description">探索不同主題的技術文章和產業洞察</p>
+        </div>
+    </header>
+    
+    <!-- Categories Grid -->
+    <section class="categories-section">
+        <div class="categories-container">
+            {{ if .Site.Taxonomies.categories }}
+                <div class="categories-grid">
+                    {{ range .Site.Taxonomies.categories.ByCount }}
+                        <article class="category-card">
+                            <a href="{{ .Page.RelPermalink }}" class="category-link">
+                                <div class="category-icon">
+                                    <i class="fas fa-folder-open"></i>
+                                </div>
+                                <div class="category-content">
+                                    <h3 class="category-name">{{ .Page.Title }}</h3>
+                                    <p class="category-count">{{ len .Pages }} 篇文章</p>
+                                    
+                                    <!-- 顯示最新文章 -->
+                                    {{ $latestPost := index (first 1 .Pages) 0 }}
+                                    {{ if $latestPost }}
+                                        <div class="latest-post">
+                                            <span class="latest-label">最新：</span>
+                                            <span class="latest-title">{{ $latestPost.Title }}</span>
+                                            <time class="latest-date">{{ $latestPost.Date.Format "01/02" }}</time>
+                                        </div>
+                                    {{ end }}
+                                </div>
+                                <div class="category-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </a>
+                        </article>
+                    {{ end }}
+                </div>
+            {{ else }}
+                <div class="no-categories">
+                    <div class="no-categories-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <h3>還沒有分類</h3>
+                    <p>目前還沒有建立任何分類，請稍後再來查看。</p>
+                    <a href="{{ "/" | relURL }}" class="btn btn-primary">返回首頁</a>
+                </div>
+            {{ end }}
+        </div>
+    </section>
+    
+    <!-- 統計資訊 -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">{{ len (where .Site.RegularPages "Section" "blog") }}</span>
+                        <span class="stat-label">總文章數</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">{{ len .Site.Taxonomies.categories }}</span>
+                        <span class="stat-label">分類數量</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-number">{{ len .Site.Taxonomies.tags }}</span>
+                        <span class="stat-label">標籤數量</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{{ end }}

@@ -1,0 +1,94 @@
+{{ define "main" }}
+<div class="single-post">
+    <article class="post-article">
+        <!-- Post Header -->
+        <header class="post-header">
+            <div class="post-meta">
+                <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                    {{ .Date.Format "2006年01月02日" }}
+                </time>
+                {{ if .Params.categories }}
+                    <div class="post-categories">
+                        {{ range .Params.categories }}
+                            <a href="{{ "/categories/" | relURL }}{{ . | urlize }}" class="post-category">{{ . }}</a>
+                        {{ end }}
+                    </div>
+                {{ end }}
+            </div>
+            
+            <h1 class="post-title">{{ .Title }}</h1>
+            
+            {{ if .Description }}
+                <p class="post-description">{{ .Description }}</p>
+            {{ end }}
+            
+            {{ if .Params.tags }}
+                <div class="post-tags">
+                    {{ range .Params.tags }}
+                        <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="post-tag"># {{ . }}</a>
+                    {{ end }}
+                </div>
+            {{ end }}
+        </header>
+        
+        <!-- Post Content -->
+        <div class="post-content">
+            {{ .Content }}
+        </div>
+        
+        <!-- Post Footer -->
+        <footer class="post-footer">
+            <div class="post-navigation">
+                {{ with .PrevInSection }}
+                    <div class="nav-previous">
+                        <span class="nav-label">上一篇</span>
+                        <a href="{{ .RelPermalink }}" class="nav-title">{{ .Title }}</a>
+                    </div>
+                {{ end }}
+                
+                {{ with .NextInSection }}
+                    <div class="nav-next">
+                        <span class="nav-label">下一篇</span>
+                        <a href="{{ .RelPermalink }}" class="nav-title">{{ .Title }}</a>
+                    </div>
+                {{ end }}
+            </div>
+            
+            <!-- Share Buttons -->
+            <div class="post-share">
+                <span class="share-label">分享文章：</span>
+                <div class="share-buttons">
+                    <a href="https://twitter.com/intent/tweet?url={{ .Permalink }}&text={{ .Title }}" 
+                       target="_blank" rel="noopener noreferrer" class="share-button twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" 
+                       target="_blank" rel="noopener noreferrer" class="share-button facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink }}" 
+                       target="_blank" rel="noopener noreferrer" class="share-button linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <button onclick="copyToClipboard('{{ .Permalink }}')" class="share-button copy">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </article>
+    
+    <!-- Related Posts -->
+    {{ $related := .Site.RegularPages.Related . | first 3 }}
+    {{ if $related }}
+        <section class="related-posts">
+            <h3 class="related-title">相關文章</h3>
+            <div class="related-grid">
+                {{ range $related }}
+                    {{ partial "post-card.html" . }}
+                {{ end }}
+            </div>
+        </section>
+    {{ end }}
+</div>
+{{ end }}

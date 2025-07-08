@@ -1,0 +1,326 @@
+{{ define "main" }}
+<div class="taxonomy-page">
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-container">
+            <h1 class="page-title">
+                <i class="fas fa-tags"></i>
+                所有標籤
+            </h1>
+            <p class="page-description">透過標籤快速找到感興趣的內容</p>
+        </div>
+    </header>
+    
+    <!-- Tags Cloud -->
+    <section class="tags-section">
+        <div class="tags-container">
+            {{ if .Site.Taxonomies.tags }}
+                <!-- 標籤雲 -->
+                <div class="tags-cloud">
+                    {{ range .Site.Taxonomies.tags.ByCount }}
+                        {{ $count := len .Pages }}
+                        {{ $weight := div (mul (sub $count 1) 3) (sub $.Site.Taxonomies.tags.Count 1) }}
+                        <a href="{{ .Page.RelPermalink }}" 
+                           class="tag-cloud-item" 
+                           data-weight="{{ $weight }}"
+                           style="font-size: {{ add 0.8 (mul $weight 0.8) }}rem;">
+                            {{ .Page.Title }}
+                            <span class="tag-count">({{ $count }})</span>
+                        </a>
+                    {{ end }}
+                </div>
+                
+                <!-- 標籤列表 -->
+                <div class="tags-list">
+                    <h3 class="section-subtitle">標籤列表</h3>
+                    <div class="tags-grid">
+                        {{ range .Site.Taxonomies.tags.Alphabetical }}
+                            <article class="tag-card">
+                                <a href="{{ .Page.RelPermalink }}" class="tag-link">
+                                    <div class="tag-info">
+                                        <h4 class="tag-name"># {{ .Page.Title }}</h4>
+                                        <p class="tag-count">{{ len .Pages }} 篇文章</p>
+                                    </div>
+                                    
+                                    <!-- 最新文章預覽 -->
+                                    <div class="tag-posts-preview">
+                                        {{ range first 2 .Pages }}
+                                            <div class="preview-post">
+                                                <span class="preview-title">{{ .Title }}</span>
+                                                <time class="preview-date">{{ .Date.Format "01/02" }}</time>
+                                            </div>
+                                        {{ end }}
+                                    </div>
+                                    
+                                    <div class="tag-arrow">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </div>
+                                </a>
+                            </article>
+                        {{ end }}
+                    </div>
+                </div>
+            {{ else }}
+                <div class="no-tags">
+                    <div class="no-tags-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>還沒有標籤</h3>
+                    <p>目前還沒有建立任何標籤，請稍後再來查看。</p>
+                    <a href="{{ "/" | relURL }}" class="btn btn-primary">返回首頁</a>
+                </div>
+            {{ end }}
+        </div>
+    </section>
+    
+    <!-- 熱門標籤 -->
+    {{ if .Site.Taxonomies.tags }}
+    <section class="popular-tags-section">
+        <div class="popular-tags-container">
+            <h3 class="section-subtitle">熱門標籤</h3>
+            <div class="popular-tags">
+                {{ range first 10 .Site.Taxonomies.tags.ByCount }}
+                    <a href="{{ .Page.RelPermalink }}" class="popular-tag">
+                        <span class="tag-text"># {{ .Page.Title }}</span>
+                        <span class="tag-number">{{ len .Pages }}</span>
+                    </a>
+                {{ end }}
+            </div>
+        </div>
+    </section>
+    {{ end }}
+</div>
+
+<style>
+.tags-cloud {
+    text-align: center;
+    padding: var(--space-xl) 0;
+    margin-bottom: var(--space-xxl);
+    background: var(--glass);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+}
+
+.tag-cloud-item {
+    display: inline-block;
+    margin: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(0, 245, 255, 0.1);
+    border: 1px solid rgba(0, 245, 255, 0.3);
+    border-radius: var(--radius-full);
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.tag-cloud-item:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.tag-cloud-item .tag-count {
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.tags-list {
+    margin-bottom: var(--space-xxl);
+}
+
+.section-subtitle {
+    color: var(--primary);
+    margin-bottom: var(--space-lg);
+    text-align: center;
+}
+
+.tags-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+}
+
+.tag-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.tag-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary);
+}
+
+.tag-link {
+    display: flex;
+    align-items: center;
+    padding: var(--space-md);
+    text-decoration: none;
+    color: var(--light);
+}
+
+.tag-info {
+    flex: 1;
+}
+
+.tag-name {
+    color: var(--primary);
+    margin-bottom: var(--space-xs);
+    font-size: 1.1rem;
+}
+
+.tag-count {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.tag-posts-preview {
+    flex: 1;
+    margin-left: var(--space-md);
+}
+
+.preview-post {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+    font-size: 0.85rem;
+}
+
+.preview-title {
+    color: var(--text-light);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: var(--space-xs);
+}
+
+.preview-date {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+
+.tag-arrow {
+    margin-left: var(--space-md);
+    color: var(--primary);
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.tag-card:hover .tag-arrow {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.popular-tags-section {
+    background: rgba(255, 255, 255, 0.02);
+    padding: var(--space-xl) 0;
+    border-radius: var(--radius-lg);
+}
+
+.popular-tags-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.popular-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    justify-content: center;
+}
+
+.popular-tag {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    color: var(--primary);
+    transition: var(--transition);
+}
+
+.popular-tag:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.tag-text {
+    font-weight: 500;
+}
+
+.tag-number {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.popular-tag:hover .tag-number {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.no-tags {
+    text-align: center;
+    padding: var(--space-xxl);
+    background: var(--glass);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+}
+
+.no-tags-icon {
+    font-size: 4rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+}
+
+.no-tags h3 {
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+}
+
+.no-tags p {
+    color: var(--text-muted);
+    margin-bottom: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+    .tags-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tag-link {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+    
+    .tag-posts-preview {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .tag-arrow {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+    
+    .popular-tags {
+        justify-content: flex-start;
+    }
+}
+</style>
+{{ end }}

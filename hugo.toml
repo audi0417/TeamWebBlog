@@ -1,29 +1,59 @@
-baseURL = "https://blog.healthymind-tech.com/"
+baseURL = "https://healthymind-tech.com/blog/"
 languageCode = "zh-tw"
 title = "療心智能部落格"
-theme = "hugo-theme-dream"
+theme = "healthymind"
+
+# 網站設定
+defaultContentLanguage = "zh-tw"
+hasCJKLanguage = true
+enableRobotsTXT = true
+enableGitInfo = true
+
+# 分頁設定
+paginate = 6
+paginatePath = "page"
 
 [params]
   author = "療心智能"
   description = "探索療心智能的最新動態、技術分享與產業洞察"
-  keywords = ["療心智能", "健康科技", "AI", "部落格", "技術分享"]
+  keywords = ["療心智能", "健康科技", "AI", "部落格", "技術分享", "創新", "智慧醫療"]
   
+  # 網站資訊
+  [params.site]
+    logo = "/images/logo.png"
+    favicon = "/favicon.ico"
+    
   # 社群媒體連結
   [params.social]
     instagram = "https://www.instagram.com/healthymind.tech"
     threads = "https://www.threads.com/@healthymind.tech"
+    email = "support@healthymind-tech.com"
+    phone = "0978-110-677"
     
   # 首頁設定
   [params.home]
-    posts = 10
+    posts = 6
     
-  # 網站圖示
-  [params.favicon]
-    icon = "/favicon.ico"
+  # SEO 設定
+  [params.seo]
+    googleAnalytics = ""
+    googleSiteVerification = ""
+    
+  # 評論系統（可選）
+  [params.comments]
+    enable = false
     
 [markup]
-  [markup.goldmark.renderer]
-    unsafe = true
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.parser]
+      attribute = true
+      autoHeadingID = true
+  [markup.highlight]
+    style = "github-dark"
+    lineNos = true
+    tabWidth = 2
     
 [menu]
   [[menu.main]]
@@ -32,14 +62,24 @@ theme = "hugo-theme-dream"
     weight = 1
     
   [[menu.main]]
-    name = "文章"
+    name = "所有文章"
     url = "/blog/"
     weight = 2
     
   [[menu.main]]
+    name = "分類"
+    url = "/categories/"
+    weight = 3
+    
+  [[menu.main]]
+    name = "標籤"
+    url = "/tags/"
+    weight = 4
+    
+  [[menu.main]]
     name = "主網站"
     url = "https://healthymind-tech.com/"
-    weight = 3
+    weight = 5
     
 # 分類和標籤設定
 [taxonomies]
@@ -51,7 +91,58 @@ theme = "hugo-theme-dream"
   home = ["HTML", "RSS", "JSON"]
   page = ["HTML"]
   section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  term = ["HTML", "RSS"]
   
 # RSS 設定
 [params.rss]
   limit = 20
+  
+# 網站地圖設定
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.8
+  
+# 隱私設定
+[privacy]
+  [privacy.googleAnalytics]
+    disable = false
+    respectDoNotTrack = true
+    anonymizeIP = true
+  [privacy.youtube]
+    disable = false
+    privacyEnhanced = true
+
+# 相關文章設定
+[related]
+  includeNewer = true
+  threshold = 80
+  toLower = true
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "categories"
+    weight = 80
+  [[related.indices]]
+    name = "date"
+    weight = 10
+
+# 圖片處理設定
+[imaging]
+  resampleFilter = "lanczos"
+  quality = 85
+  anchor = "smart"
+
+# 安全設定
+[security]
+  [security.exec]
+    allow = ["^dart-sass-embedded$", "^go$", "^npx$", "^postcss$"]
+  [security.funcs]
+    getenv = ["^HUGO_", "^CI$"]
+
+# 模組設定（如果使用 Hugo Modules）
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = "0.104.0"

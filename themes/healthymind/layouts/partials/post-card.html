@@ -1,0 +1,43 @@
+<article class="post-card">
+    <div class="post-card-content">
+        <!-- Post Meta -->
+        <div class="post-meta">
+            <time class="post-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "2006年01月02日" }}
+            </time>
+            {{ if .Params.categories }}
+                <div class="post-categories">
+                    {{ range .Params.categories }}
+                        <a href="{{ "/categories/" | relURL }}{{ . | urlize }}" class="post-category">{{ . }}</a>
+                    {{ end }}
+                </div>
+            {{ end }}
+        </div>
+        
+        <!-- Post Title -->
+        <h2 class="post-title">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h2>
+        
+        <!-- Post Summary -->
+        <div class="post-summary">
+            {{ .Summary }}
+        </div>
+        
+        <!-- Post Tags -->
+        {{ if .Params.tags }}
+            <div class="post-tags">
+                {{ range .Params.tags }}
+                    <span class="post-tag">{{ . }}</span>
+                {{ end }}
+            </div>
+        {{ end }}
+        
+        <!-- Read More -->
+        <div class="post-actions">
+            <a href="{{ .RelPermalink }}" class="read-more">
+                閱讀更多 <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</article>

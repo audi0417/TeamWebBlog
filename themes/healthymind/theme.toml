@@ -1,0 +1,13 @@
+# Theme information
+name = "HealthyMind"
+license = "MIT"
+licenselink = "https://github.com/your-username/healthymind-hugo-theme/blob/main/LICENSE"
+description = "A modern blog theme for HealthyMind Tech"
+homepage = "https://healthymind-tech.com/"
+tags = ["blog", "modern", "responsive", "health", "tech"]
+features = ["responsive", "dark mode", "social media", "SEO optimized"]
+min_version = "0.104.0"
+
+[author]
+  name = "HealthyMind Tech"
+  homepage = "https://healthymind-tech.com/"

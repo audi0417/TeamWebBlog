@@ -1,0 +1,88 @@
+{{ define "main" }}
+<div class="list-page">
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-container">
+            <h1 class="page-title">
+                {{ if .IsHome }}
+                    {{ .Site.Title }}
+                {{ else if eq .Kind "taxonomy" }}
+                    {{ .Title }}
+                {{ else if eq .Kind "term" }}
+                    {{ .Title }}
+                {{ else }}
+                    {{ .Title }}
+                {{ end }}
+            </h1>
+            
+            {{ if .Description }}
+                <p class="page-description">{{ .Description }}</p>
+            {{ else if eq .Kind "taxonomy" }}
+                <p class="page-description">瀏覽所有 {{ .Title }} 相關文章</p>
+            {{ else if eq .Kind "term" }}
+                <p class="page-description">關於「{{ .Title }}」的所有文章</p>
+            {{ end }}
+            
+            <!-- Posts Count -->
+            {{ $posts := where .RegularPages "Section" "blog" }}
+            {{ if $posts }}
+                <div class="posts-count">
+                    <i class="fas fa-file-alt"></i>
+                    共 {{ len $posts }} 篇文章
+                </div>
+            {{ end }}
+        </div>
+    </header>
+    
+    <!-- Posts Grid -->
+    <section class="posts-section">
+        <div class="posts-container">
+            {{ if $posts }}
+                <div class="posts-grid">
+                    {{ range $posts }}
+                        {{ partial "post-card.html" . }}
+                    {{ end }}
+                </div>
+            {{ else }}
+                <div class="no-posts">
+                    <div class="no-posts-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>暫無文章</h3>
+                    <p>此分類下還沒有文章，請稍後再來查看。</p>
+                    <a href="{{ "/" | relURL }}" class="btn btn-primary">返回首頁</a>
+                </div>
+            {{ end }}
+        </div>
+    </section>
+    
+    <!-- Pagination -->
+    {{ if gt .Paginator.TotalPages 1 }}
+        <nav class="pagination">
+            <div class="pagination-container">
+                {{ if .Paginator.HasPrev }}
+                    <a href="{{ .Paginator.Prev.URL }}" class="pagination-prev">
+                        <i class="fas fa-chevron-left"></i> 上一頁
+                    </a>
+                {{ end }}
+                
+                <div class="pagination-numbers">
+                    {{ range .Paginator.Pagers }}
+                        {{ if eq . $.Paginator }}
+                            <span class="pagination-number current">{{ .PageNumber }}</span>
+                        {{ else }}
+                            <a href="{{ .URL }}" class="pagination-number">{{ .PageNumber }}</a>
+                        {{ end }}
+                    {{ end }}
+                </div>
+                
+                {{ if .Paginator.HasNext }}
+                    <a href="{{ .Paginator.Next.URL }}" class="pagination-next">
+                        下一頁 <i class="fas fa-chevron-right"></i>
+                    </a>
+                {{ end }}
+            </div>
+        </nav>
+    {{ end }}
+</div>
+{{ end }}
