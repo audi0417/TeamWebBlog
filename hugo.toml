@@ -1,3 +1,57 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
+baseURL = "https://blog.healthymind-tech.com/"
+languageCode = "zh-tw"
+title = "療心智能部落格"
+theme = "hugo-theme-dream"
+
+[params]
+  author = "療心智能"
+  description = "探索療心智能的最新動態、技術分享與產業洞察"
+  keywords = ["療心智能", "健康科技", "AI", "部落格", "技術分享"]
+  
+  # 社群媒體連結
+  [params.social]
+    instagram = "https://www.instagram.com/healthymind.tech"
+    threads = "https://www.threads.com/@healthymind.tech"
+    
+  # 首頁設定
+  [params.home]
+    posts = 10
+    
+  # 網站圖示
+  [params.favicon]
+    icon = "/favicon.ico"
+    
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+    
+[menu]
+  [[menu.main]]
+    name = "首頁"
+    url = "/"
+    weight = 1
+    
+  [[menu.main]]
+    name = "文章"
+    url = "/blog/"
+    weight = 2
+    
+  [[menu.main]]
+    name = "主網站"
+    url = "https://healthymind-tech.com/"
+    weight = 3
+    
+# 分類和標籤設定
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  
+# 輸出格式設定
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]
+  
+# RSS 設定
+[params.rss]
+  limit = 20
