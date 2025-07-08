@@ -1,4 +1,4 @@
-baseURL = "https://blog.healthymind-tech.com/"
+baseURL = "https://healthymind-tech.com/blog"
 languageCode = "zh-tw"
 title = "療心智能部落格"
 theme = ""
