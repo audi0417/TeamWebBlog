@@ -19,7 +19,8 @@
                 <div class="tags-cloud">
                     {{ range .Site.Taxonomies.tags.ByCount }}
                         {{ $count := len .Pages }}
-                        {{ $weight := div (mul (sub $count 1) 3) (sub $.Site.Taxonomies.tags.Count 1) }}
+                        {{ $maxCount := 10 }}
+                        {{ $weight := div (mul (sub $count 1) 3) $maxCount }}
                         <a href="{{ .Page.RelPermalink }}" 
                            class="tag-cloud-item" 
                            data-weight="{{ $weight }}"

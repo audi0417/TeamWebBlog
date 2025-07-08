@@ -36,10 +36,11 @@
             </div>
             
             <!-- 熱門分類 -->
+            {{ if .Site.Taxonomies.categories }}
             <div class="popular-categories">
                 <h3>熱門分類：</h3>
                 <div class="category-links">
-                    {{ range first 5 .Site.Taxonomies.categories }}
+                    {{ range first 5 .Site.Taxonomies.categories.ByCount }}
                         <a href="{{ .Page.RelPermalink }}" class="category-link">
                             {{ .Page.Title }}
                             <span class="count">({{ len .Pages }})</span>
@@ -47,6 +48,7 @@
                     {{ end }}
                 </div>
             </div>
+            {{ end }}
         </div>
     </div>
 </div>

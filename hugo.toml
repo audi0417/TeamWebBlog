@@ -7,11 +7,12 @@ theme = "healthymind"
 defaultContentLanguage = "zh-tw"
 hasCJKLanguage = true
 enableRobotsTXT = true
-enableGitInfo = true
+enableGitInfo = false  # 在 Cloudflare Pages 中禁用
 
-# 分頁設定
-paginate = 6
-paginatePath = "page"
+# 分頁設定（更新到新語法）
+[pagination]
+  pagerSize = 6
+  path = "page"
 
 [params]
   author = "療心智能"
@@ -134,14 +135,14 @@ paginatePath = "page"
   quality = 85
   anchor = "smart"
 
-# 安全設定
+# 安全設定（移除 git 需求）
 [security]
   [security.exec]
     allow = ["^dart-sass-embedded$", "^go$", "^npx$", "^postcss$"]
   [security.funcs]
     getenv = ["^HUGO_", "^CI$"]
 
-# 模組設定（如果使用 Hugo Modules）
+# 模組設定
 [module]
   [module.hugoVersion]
     extended = false
